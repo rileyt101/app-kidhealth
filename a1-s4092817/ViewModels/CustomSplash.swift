@@ -11,21 +11,23 @@ import SwiftUI
 // MARK: - Custom Layout
 
 struct CustomSplash: Layout {
-
     /// Spacing between the divider and the titleFirst block
     var dividerSpacing: CGFloat = 16
     /// Spacing between the titleFirst block and the subtitle
     var verticalSpacing: CGFloat = 24
-    /// How much the icon overlaps the top-right corner of the titleFirst
+    /// How much the symbolProminent overlaps the top-right corner of the titleFirst
     var iconOverlap: CGFloat = 10
+    /// Spacing between the First and Last word in title
+    var titleVerticalSpacing: CGFloat = 10
 
-    // Expected subview order: [divider, titleText, icon, subtitleText]
+    // Enum represents expected order of custom layout parameters
     private enum Index {
         static let divider = 0
         static let titleFirst = 1
         static let titleLast = 2
-        static let icon = 3
-        static let subtitle = 4
+        static let symbolProminent = 3
+        static let symbolSuperscript = 4
+        static let subtitle = 5
     }
 
     func sizeThatFits(
@@ -33,7 +35,7 @@ struct CustomSplash: Layout {
         subviews: Subviews,
         cache: inout ()
     ) -> CGSize {
-        guard subviews.count == 5 else { return .zero }
+        guard subviews.count == 6 else { return .zero }
 
         let titleFirstSize = subviews[Index.titleFirst].sizeThatFits(.unspecified)
         let titleLastSize = subviews[Index.titleLast].sizeThatFits(.unspecified)
@@ -54,7 +56,7 @@ struct CustomSplash: Layout {
         let totalHeight = logoBlockHeight + verticalSpacing + subtitleSize.height
 
         return CGSize(
-            width: proposal.width ?? totalWidth,
+            width: totalWidth,
             height: totalHeight
         )
     }
@@ -65,22 +67,23 @@ struct CustomSplash: Layout {
         subviews: Subviews,
         cache: inout ()
     ) {
-        guard subviews.count == 5 else { return }
+        guard subviews.count == 6 else { return }
 
         let divider = subviews[Index.divider]
         let titleFirst = subviews[Index.titleFirst]
-        let icon = subviews[Index.icon]
+        let titleLast = subviews[Index.titleLast]
+        let symbolProminent = subviews[Index.symbolProminent]
         let subtitle = subviews[Index.subtitle]
 
-        let titleSize = titleFirst.sizeThatFits(.unspecified)
-        let dividerSize = divider.sizeThatFits(ProposedViewSize(width: nil, height: titleSize.height))
-        let iconSize = icon.sizeThatFits(.unspecified)
+        let titleFirstSize = titleFirst.sizeThatFits(.unspecified)
+        let dividerSize = divider.sizeThatFits(ProposedViewSize(width: nil, height: titleFirstSize.height))
+        let iconSize = symbolProminent.sizeThatFits(.unspecified)
         let subtitleSize = subtitle.sizeThatFits(
             ProposedViewSize(width: bounds.width, height: nil)
         )
 
-        let logoBlockWidth = dividerSize.width + dividerSpacing + titleSize.width
-        let logoBlockHeight = max(titleSize.height, dividerSize.height)
+        let logoBlockWidth = dividerSize.width + dividerSpacing + titleFirstSize.width
+        let logoBlockHeight = max(titleFirstSize.height, dividerSize.height)
 
         // Horizontally center the whole composition within the proposed bounds
         let contentWidth = max(logoBlockWidth, subtitleSize.width)
@@ -98,21 +101,38 @@ struct CustomSplash: Layout {
         )
 
         // Place titleFirst, right of divider
-        let titleOrigin = CGPoint(
-            x: dividerOrigin.x + dividerSize.width + dividerSpacing,
-            y: originY + (logoBlockHeight - titleSize.height) / 2
+        let titleFirstOrigin = CGPoint(
+            x: dividerOrigin.x
+                + dividerSize.width
+                + dividerSpacing,
+            y: originY
+                - titleVerticalSpacing / 2
+                + (logoBlockHeight - titleFirstSize.height) / 2
         )
         titleFirst.place(
-            at: titleOrigin,
-            proposal: ProposedViewSize(width: titleSize.width, height: titleSize.height)
+            at: titleFirstOrigin,
+            proposal: ProposedViewSize(width: titleFirstSize.width, height: titleFirstSize.height)
+        )
+        
+        let titleLastOrigin = CGPoint(
+            x: dividerOrigin.x
+                + dividerSize.width
+                + dividerSpacing
+                + (titleFirstSize.width / 2),
+            y: originY + (logoBlockHeight) / 2
+                + titleVerticalSpacing / 2
+        )
+        titleLast.place(
+            at: titleLastOrigin,
+            proposal: ProposedViewSize(width: titleFirstSize.width, height: titleFirstSize.height)
         )
 
-        // Place icon, badged onto the top-right corner of the titleFirst
+        // Place symbolProminent, badged onto the top-right corner of the titleFirst
         let iconOrigin = CGPoint(
-            x: titleOrigin.x + titleSize.width - iconOverlap,
-            y: titleOrigin.y - iconSize.height / 2
+            x: titleFirstOrigin.x + titleFirstSize.width - iconOverlap,
+            y: titleFirstOrigin.y - iconSize.height / 2
         )
-        icon.place(
+        symbolProminent.place(
             at: iconOrigin,
             proposal: ProposedViewSize(width: iconSize.width, height: iconSize.height)
         )
@@ -133,43 +153,38 @@ struct CustomSplash: Layout {
 
 struct CustomSplashView: View {
     var body: some View {
-        KidHealthLayout {
-            // 0: divider
+        CustomSplash {
+            /// --- VERTICAL LINE ---
             Rectangle()
                 .fill(Color.black)
                 .frame(width: 3, height: 150)
 
-            // 1: titleFirst (two lines, matching "Kid" / "Health")
+            /// --- TEXT ---
             Text("Kid")
                 .font(.system(size: 40))
-                .multilineTextAlignment(.leading)
-                .lineSpacing(2)
+                .fontWeight(.semibold)
                 .fixedSize()
-            
             Text("Health")
                 .font(.system(size: 40))
-                .multilineTextAlignment(.leading)
-                .lineSpacing(2)
+                .fontWeight(.semibold)
                 .fixedSize()
 
-            // 2: clipboard + cross icon
-            ZStack {
+            /// --- SF SYMBOLS ---
                 Image(systemName: "list.clipboard")
                     .font(.system(size: 26, weight: .medium))
                 Image(systemName: "plus")
                     .font(.system(size: 12, weight: .bold))
                     .offset(x: 14, y: -14)
-            }
-            .fixedSize()
 
-            // 3: subtitle
+            /// --- CAPTION ---
             Text("Your children's medical information,\nall in one place.")
                 .font(.system(size: 16))
                 .multilineTextAlignment(.center)
-                .foregroundColor(.black.opacity(0.7))
+                .foregroundColor(.black)
                 .fixedSize()
         }
         .padding(.horizontal, 40)
+        .border(Color.red, width: 1)
     }
 }
 
