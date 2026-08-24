@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		BF6A7CE8303AD62A002B2C3D /* a1-s4092817.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "a1-s4092817.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF2E4807303BD00000EC92EB /* a1-s4092817.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "a1-s4092817.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -33,16 +33,8 @@
 			isa = PBXGroup;
 			children = (
 				BF6A7CEA303AD62A002B2C3D /* a1-s4092817 */,
-				BF6A7CE9303AD62A002B2C3D /* Products */,
+				BF2E4807303BD00000EC92EB /* a1-s4092817.app */,
 			);
-			sourceTree = "<group>";
-		};
-		BF6A7CE9303AD62A002B2C3D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				BF6A7CE8303AD62A002B2C3D /* a1-s4092817.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -67,7 +59,7 @@
 			packageProductDependencies = (
 			);
 			productName = "a1-s4092817";
-			productReference = BF6A7CE8303AD62A002B2C3D /* a1-s4092817.app */;
+			productReference = BF2E4807303BD00000EC92EB /* a1-s4092817.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -95,7 +87,7 @@
 			mainGroup = BF6A7CDF303AD62A002B2C3D;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = BF6A7CE9303AD62A002B2C3D /* Products */;
+			productRefGroup = BF6A7CDF303AD62A002B2C3D;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
