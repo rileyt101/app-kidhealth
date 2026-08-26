@@ -8,12 +8,8 @@
 import SwiftUI
 
 struct SplashView: View {
-    @State private var showHomeView: Bool = false
-    
     var body: some View {
-        if showHomeView {
-            ContentView()
-        } else {
+        ZStack {
             NavigationStack {
                 VStack {
                     // MARK: Custom Splash
@@ -50,16 +46,14 @@ struct SplashView: View {
                 // MARK: Toolbar Button
                 .toolbar {
                     ToolbarItem(placement: .automatic) {
-                        Button {
-                            withAnimation {                            showHomeView = true
-                            }
-                        } label: {
+                        NavigationLink(destination: HomeView()) {
                             Image(systemName: "chevron.right")
                         }
                     }
                 }
-                
+
             }
+            
         }
     }
 }
