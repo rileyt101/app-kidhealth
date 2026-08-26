@@ -9,7 +9,17 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            List(children) { child in
+                NavigationLink(destination: AllergiesView(child: child)) {
+                    Text(child.name)
+                }
+            }
+            .listStyle(.plain)
+            .navigationTitle("Dashboard")
+            .navigationBarTitleDisplayMode(.large)
+
+        }
     }
 }
 
