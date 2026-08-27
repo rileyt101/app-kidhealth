@@ -9,24 +9,32 @@ import SwiftUI
 
 struct AllergiesView: View {
     var child: Child
+    
+    var viewTitle: String {
+        child.name + "'s Allergies"
+    }
+
     var body: some View {
         NavigationStack {
-            Group {
+            VStack {
                 if let allergies = child.allergies, !allergies.isEmpty {
-                    List(allergies) { allergy in
-                        HStack {
-                            Text(allergy.name)
-                            Text(allergy.severity)
-                            Text(allergy.medication)
+                    List {
+                        ForEach(allergies) { allergy in
+                            NavigationLink(destination: AllergyDetailView(allergy: allergy)) {
+                                AllergyListItem(allergy: allergy)
+                            }
                         }
                     }
                     .listStyle(.inset)
                 }
+                NavigationLink(destination:
+                                AllergyCreateView()) {
+                        Text("+ Add Allergy")
+                }
             }
-            .navigationTitle(child.name)
+            .navigationTitle(viewTitle)
             .navigationBarTitleDisplayMode(.large)
         }
-        
     }
 }
 
