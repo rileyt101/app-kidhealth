@@ -16,7 +16,7 @@ struct HomeView: View {
                 }
             }
             .listStyle(.plain)
-            .navigationTitle("Dashboard")
+            .navigationTitle("Your Children")
             .navigationBarTitleDisplayMode(.large)
 
         }
