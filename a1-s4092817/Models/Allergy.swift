@@ -10,9 +10,9 @@ import Foundation
 struct Allergy: Codable, Identifiable {
     var id = UUID()
     var name: String
-    var description: String?
     var severity: String
     var medication: String
+    var notes: String?
 }
 
 enum Severity: Int, Codable {
