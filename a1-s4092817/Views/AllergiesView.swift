@@ -27,9 +27,13 @@ struct AllergiesView: View {
                     }
                     .listStyle(.inset)
                 }
-                NavigationLink(destination:
-                                AllergyCreateView()) {
-                        Text("+ Add Allergy")
+                // Empty state
+                else {
+                    Text("You have not added any allergies yet.")
+                        .opacity(0.6)
+                }
+                NavigationLink(destination: AllergyCreateView()) {
+                    Text("+ Add Allergy")
                 }
             }
             .navigationTitle(viewTitle)
@@ -38,9 +42,12 @@ struct AllergiesView: View {
     }
 }
 
+
 #Preview {
     AllergiesView(child: Child(name: "Amanda",
                             allergies: [Allergy(name: "Eggs", severity: "Severe", medication: "EpiPen"),
-                                        Allergy(name: "Peanuts", severity: "Strong", medication: "EpiPen")]
+                                        Allergy(name: "Peanuts", severity: "Strong", medication: "EpiPen"),
+                                        Allergy(name: "Eggs", severity: "Severe", medication: "EpiPen")
+                                       ]
                            ))
 }
