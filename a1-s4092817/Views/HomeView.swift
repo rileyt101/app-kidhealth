@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct HomeView: View {
+    @StateObject var viewModel = HomeViewModel()
+    
     var body: some View {
         NavigationStack {
-            List(children) { child in
+            List(viewModel.alphabeticallyOrderedChildren) { child in
                 NavigationLink(destination: AllergiesView(child: child)) {
                     Text(child.name)
                 }
