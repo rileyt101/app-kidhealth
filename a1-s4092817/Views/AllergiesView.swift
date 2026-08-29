@@ -16,12 +16,11 @@ struct AllergiesView: View {
     }
 
     var body: some View {
-        NavigationStack {
             VStack {
                 if let allergies = child.allergies, !allergies.isEmpty {
                     List {
                         ForEach(allergies) { allergy in
-                            NavigationLink(destination: AllergyDetailView(allergy: allergy)) {
+                            NavigationLink(destination: AllergyDetailView(child: child,                                allergy: allergy)) {
                                 AllergyListItem(allergy: allergy)
                             }
                         }
@@ -47,7 +46,6 @@ struct AllergiesView: View {
             .navigationTitle(viewTitle)
             .navigationBarTitleDisplayMode(.large)
         }
-    }
 }
 
 

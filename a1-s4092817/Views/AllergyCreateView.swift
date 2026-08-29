@@ -29,7 +29,6 @@ struct AllergyCreateView: View {
     
     var child: Child
     var body: some View {
-        NavigationStack {
             ScrollView {
                 VStack (alignment: .leading) {
                     
@@ -104,7 +103,6 @@ struct AllergyCreateView: View {
                 }
             }
             .navigationTitle("Add \(child.name)'s Allergy")
-        }
     }
 }
 
