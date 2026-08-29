@@ -31,6 +31,17 @@ enum Severity: Int, Codable {
         }
     }
     
+    init(fromString string: String) {
+        switch string.lowercased() {
+        case "mild": self = .mild
+        case "moderate": self = .moderate
+        case "strong": self = .strong
+        case "severe": self = .severe
+            
+        default: self = .mild
+        }
+    }
+    
     var color: SwiftUI.Color {
         switch self {
         case .mild: return Color("Mild")
