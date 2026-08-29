@@ -9,12 +9,18 @@ import SwiftUI
 
 struct AllergyListItem: View {
     var allergy: Allergy
+
     var body: some View {
         HStack {
             VStack (alignment: .leading) {
                 Text(allergy.name)
-                Text(allergy.severity)
-                    .opacity(0.6)
+                HStack {
+                    SeverityGrading(severity: Severity(fromString: allergy.severity),
+                                    size: 14)
+                    Text(allergy.severity)
+                        .opacity(0.6)
+                    Spacer()
+                }
             }
             Spacer()
             Text("Details")
