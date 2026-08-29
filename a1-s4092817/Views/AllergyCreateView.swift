@@ -45,60 +45,47 @@ struct AllergyCreateView: View {
                     Text("Allergy Name")
                         .font(.title2).bold()
                     
-                    TextField("Name", text: $viewModel.nameField)
-                        .textFieldStyle(.plain)
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 12)
-                        .background(Color(.secondarySystemBackground))
-                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .circular))
-                        .padding(.bottom, 20)
+                    InputFieldStyling {
+                        TextField("Name", text: $viewModel.nameField)
+                    }
                     // --- SEVERITY SLIDER FIELD ---
                     Text("Severity")
                         .font(.title2).bold()
-                    VStack {
-                        Slider(
-                            value: $viewModel.severitySliderValue,
-                            in: 0...3,
-                            step: 1,
-                            minimumValueLabel: Text(Image(systemName: "allergens.fill")).font(.caption),
-                            maximumValueLabel: Text(Image(systemName: "exclamationmark.triangle.fill")).font(.caption),
-                            label: {
-                            }
-                        )
-                        .tint(sliderColor)
-                        .textFieldStyle(.plain)
-                        Text(viewModel.severityField.displayName)
-                    }
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 12)
-                    .background(Color(.secondarySystemBackground))
-                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .circular))
-                    .padding(.bottom, 20)
                     
-                    // --- SEVERITY TEXT FIELD ---
+                    InputFieldStyling {
+                        VStack {
+                            Slider(
+                                value: $viewModel.severitySliderValue,
+                                in: 0...3,
+                                step: 1,
+                                minimumValueLabel: Text(Image(systemName: "allergens.fill")).font(.caption),
+                                maximumValueLabel: Text(Image(systemName: "exclamationmark.triangle.fill")).font(.caption),
+                                label: {
+                                }
+                            )
+                            .tint(sliderColor)
+                            .textFieldStyle(.plain)
+                            Text(viewModel.severityField.displayName)
+                        }
+                    }
+                    
+                    // --- MEDICATION TEXT FIELD ---
                     Text("Medication")
                         .font(.title2).bold()
                     
-                    TextField("Medication", text:
-                                $viewModel.medicationField)
-                    .textFieldStyle(.plain)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 12)
-                    .background(Color(.secondarySystemBackground))
-                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .circular))
-                    .padding(.bottom, 20)
-                    
+                    InputFieldStyling {
+                        TextField("e.g. Epipen, Inhaler ...",
+                                  text: $viewModel.medicationField)
+                    }
+
                     // --- NOTES TEXT FIELD ---
                     Text("Additional Notes")
                         .font(.title2).bold()
-                    TextField("Notes", text:
-                                $viewModel.notesField)
-                    .textFieldStyle(.plain)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 12)
-                    .background(Color(.secondarySystemBackground))
-                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .circular))
-                    .padding(.bottom, 20)
+                    InputFieldStyling {
+                        TextField("Any specific details about this allergy?", text: $viewModel.notesField,
+                                  axis: .vertical)
+                    }
+                    .lineLimit(4...6)
                 }
                 .padding(.horizontal, 16)
             }
@@ -116,7 +103,7 @@ struct AllergyCreateView: View {
                     .padding(.horizontal, 16)
                 }
             }
-            .navigationTitle("Add Allergy")
+            .navigationTitle("Add \(child.name)'s Allergy")
         }
     }
 }
