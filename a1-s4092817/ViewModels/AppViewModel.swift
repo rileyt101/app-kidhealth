@@ -16,12 +16,19 @@ final class AppViewModel: ObservableObject {
     @Published private(set) var children: [Child] = childrenData
     
     // MARK: - Allergy entry fields
+    @Published var currentChild: Child?
+    
     @Published var nameField: String = ""
-    @Published var severityField: String = ""
+    @Published var severityField: Severity = .mild
     @Published var medicationField: String = ""
     @Published var notesField: String = ""
     
-    @Published var currentChild: Child?
+    @Published var severitySliderValue: Double = 0.0 {
+        didSet {
+            let clamped = Int(severitySliderValue.rounded())
+            severityField = Severity(rawValue: clamped) ?? .mild
+        }
+    }
     
     // MARK: - Derived values
     var alphabeticallyOrderedChildren: [Child] {
@@ -49,7 +56,7 @@ final class AppViewModel: ObservableObject {
         }
         else {
             let newAllergy = Allergy(name: nameField,
-                                     severity: severityField,
+                                     severity: severityField.displayName,
                                      medication: medicationField,
                                      notes: notesField)
             children[childIndex].allergies = (children[childIndex].allergies ?? []) + [newAllergy]
@@ -60,8 +67,10 @@ final class AppViewModel: ObservableObject {
     // MARK: - Functions for Allergy Creation page logic
     func resetInputFields() {
         nameField = ""
-        severityField = ""
+        severityField = .mild
         medicationField = ""
-        nameField = ""
+        notesField = ""
+        
+        severitySliderValue = 0.0
     }
 }
