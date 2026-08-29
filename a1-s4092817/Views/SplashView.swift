@@ -37,7 +37,7 @@ struct SplashView: View {
                     .padding(10)
                     // MARK: Caption
                     Text("""
-                         Your children's medical information,
+                         Your children's allergy information,
                          all in one place.
                         """)
                     .font(.body)
