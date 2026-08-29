@@ -8,11 +8,17 @@
 import SwiftUI
 
 struct AllergyCreateView: View {
+    
+    @ObservedObject var viewModel: AppViewModel
     var body: some View {
         Text("AllergyCreateView")
     }
 }
 
 #Preview {
-    AllergyCreateView()
+    @StateObject @Previewable var viewModel: AppViewModel = AppViewModel()
+    let child: Child = viewModel.getChildren().first!
+    
+    AllergyCreateView(viewModel: viewModel)
 }
+

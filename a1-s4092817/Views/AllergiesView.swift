@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct AllergiesView: View {
-    var child: Child
+    @ObservedObject var viewModel: AppViewModel
     
+    var child: Child
     var viewTitle: String {
         child.name + "'s Allergies"
     }
@@ -32,7 +33,7 @@ struct AllergiesView: View {
                     Text("You have not added any allergies yet.")
                         .opacity(0.6)
                 }
-                NavigationLink(destination: AllergyCreateView()) {
+                NavigationLink(destination: AllergyCreateView(viewModel: viewModel)) {
                     Text("+ Add Allergy")
                 }
             }
@@ -44,10 +45,10 @@ struct AllergiesView: View {
 
 
 #Preview {
-    AllergiesView(child: Child(name: "Amanda",
-                            allergies: [Allergy(name: "Eggs", severity: "Severe", medication: "EpiPen"),
-                                        Allergy(name: "Peanuts", severity: "Strong", medication: "EpiPen"),
-                                        Allergy(name: "Eggs", severity: "Severe", medication: "EpiPen")
-                                       ]
-                           ))
+    @StateObject @Previewable var viewModel: AppViewModel = AppViewModel()
+    let child: Child = viewModel.getChildren().first!
+    
+    AllergiesView(viewModel: viewModel,
+                  child: child
+                    )
 }
