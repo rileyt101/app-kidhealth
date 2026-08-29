@@ -9,21 +9,68 @@ import SwiftUI
 
 struct AllergyCreateView: View {
     @ObservedObject var viewModel: AppViewModel
+    @Environment(\.dismiss) private var dismiss
     var child: Child
     var body: some View {
         NavigationStack {
-            VStack {
-
-                    TextField("Name", text: $viewModel.nameField)
-                        .textFieldStyle(.roundedBorder)
-
+            VStack (alignment: .leading){
+                
+                // Allow SF Symbol to align in center
+                HStack {
+                    Spacer()
+                    Text(Image(systemName: "heart.text.clipboard"))
+                        .font(.system(size: 64, weight: .bold))
+                    Spacer()
+                }
+                
+                // --- ALLERGY NAME TEXT FIELD ---
+                Text("Allergy Name")
+                    .font(.title2).bold()
+                
+                TextField("Name", text: $viewModel.nameField)
+                    .textFieldStyle(.plain)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 12)
+                    .background(Color(.secondarySystemBackground))
+                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .circular))
+                    .padding(.bottom, 20)
+                // --- SEVERITY SLIDER FIELD ---
+                Text("Severity")
+                    .font(.title2).bold()
+                
                 TextField("Severity", text:
                             $viewModel.severityField)
-                    .textFieldStyle(.roundedBorder)
+                .textFieldStyle(.plain)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 12)
+                .background(Color(.secondarySystemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .circular))
+                .padding(.bottom, 20)
+                
+                // --- SEVERITY TEXT FIELD ---
+                Text("Medication")
+                    .font(.title2).bold()
                 
                 TextField("Medication", text:
                             $viewModel.medicationField)
-                    .textFieldStyle(.roundedBorder)
+                .textFieldStyle(.plain)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 12)
+                .background(Color(.secondarySystemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .circular))
+                .padding(.bottom, 20)
+                
+                // --- NOTES TEXT FIELD ---
+                Text("Additional Notes")
+                    .font(.title2).bold()
+                TextField("Notes", text:
+                            $viewModel.notesField)
+                .textFieldStyle(.plain)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 12)
+                .background(Color(.secondarySystemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .circular))
+                .padding(.bottom, 20)
                 
                 Spacer()
                 Button("Add") {
