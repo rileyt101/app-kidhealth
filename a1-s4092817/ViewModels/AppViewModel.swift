@@ -52,16 +52,22 @@ final class AppViewModel: ObservableObject {
         }
         
         if (nameField.isEmpty) {
-            return false
+            nameField = "Unknown"
         }
-        else {
-            let newAllergy = Allergy(name: nameField,
-                                     severity: severityField.displayName,
-                                     medication: medicationField,
-                                     notes: notesField)
-            children[childIndex].allergies = (children[childIndex].allergies ?? []) + [newAllergy]
-            return true
-        }  
+        if (medicationField.isEmpty) {
+            medicationField = "None"
+        }
+        if (notesField.isEmpty) {
+            notesField = "None"
+        }
+        
+        let newAllergy = Allergy(name: nameField,
+                                 severity: severityField.displayName,
+                                 medication: medicationField,
+                                 notes: notesField)
+        children[childIndex].allergies = (children[childIndex].allergies ?? []) + [newAllergy]
+
+        return true
     }
     
     // MARK: - Functions for Allergy Creation page logic
