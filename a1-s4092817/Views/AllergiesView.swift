@@ -34,11 +34,16 @@ struct AllergiesView: View {
                         .opacity(0.6)
                 }
                 NavigationLink(destination: AllergyCreateView(
-                                                viewModel: viewModel,
-                                                child: child)) {
+                                viewModel: viewModel,
+                                child: child)
+                    .onAppear {viewModel.resetInputFields()}) {
                     Text("+ Add Allergy")
                 }
+                    .buttonSizing(ButtonSizing.flexible)
+                    .controlSize(ControlSize.large)
+                    .buttonStyle(.glassProminent)
             }
+            .padding(.horizontal, 12)
             .navigationTitle(viewTitle)
             .navigationBarTitleDisplayMode(.large)
         }

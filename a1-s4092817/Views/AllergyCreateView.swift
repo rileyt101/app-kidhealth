@@ -26,11 +26,16 @@ struct AllergyCreateView: View {
                     .textFieldStyle(.roundedBorder)
                 
                 Spacer()
-                                        Button("Add") {
-                                            viewModel.addAllergyEntry(child: child)
-                                        }
-                                        .buttonStyle(.glassProminent)
+                Button("Add") {
+                    if viewModel.addAllergyEntry(child: child) {
+                        dismiss()
+                    }
+                }
+                .buttonSizing(ButtonSizing.flexible)
+                .controlSize(ControlSize.large)
+                .buttonStyle(.glassProminent)
             }
+            .padding(.horizontal, 16)
             .navigationTitle("Add Allergy")
         }
     }
