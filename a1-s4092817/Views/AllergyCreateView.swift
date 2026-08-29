@@ -8,10 +8,31 @@
 import SwiftUI
 
 struct AllergyCreateView: View {
-    
     @ObservedObject var viewModel: AppViewModel
+    var child: Child
     var body: some View {
-        Text("AllergyCreateView")
+        NavigationStack {
+            VStack {
+
+                    TextField("Name", text: $viewModel.nameField)
+                        .textFieldStyle(.roundedBorder)
+
+                TextField("Severity", text:
+                            $viewModel.severityField)
+                    .textFieldStyle(.roundedBorder)
+                
+                TextField("Medication", text:
+                            $viewModel.medicationField)
+                    .textFieldStyle(.roundedBorder)
+                
+                Spacer()
+                                        Button("Add") {
+                                            viewModel.addAllergyEntry(child: child)
+                                        }
+                                        .buttonStyle(.glassProminent)
+            }
+            .navigationTitle("Add Allergy")
+        }
     }
 }
 
@@ -19,6 +40,6 @@ struct AllergyCreateView: View {
     @StateObject @Previewable var viewModel: AppViewModel = AppViewModel()
     let child: Child = viewModel.getChildren().first!
     
-    AllergyCreateView(viewModel: viewModel)
+    AllergyCreateView(viewModel: viewModel, child: child)
 }
 

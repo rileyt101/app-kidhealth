@@ -33,7 +33,9 @@ struct AllergiesView: View {
                     Text("You have not added any allergies yet.")
                         .opacity(0.6)
                 }
-                NavigationLink(destination: AllergyCreateView(viewModel: viewModel)) {
+                NavigationLink(destination: AllergyCreateView(
+                                                viewModel: viewModel,
+                                                child: child)) {
                     Text("+ Add Allergy")
                 }
             }
