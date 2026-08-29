@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct Allergy: Codable, Identifiable {
     var id = UUID()
@@ -27,6 +28,15 @@ enum Severity: Int, Codable {
         case .moderate: return "Moderate"
         case .strong: return "Strong"
         case .severe: return "Severe"
+        }
+    }
+    
+    var color: SwiftUI.Color {
+        switch self {
+        case .mild: return Color("Mild")
+        case .moderate: return Color("Moderate")
+        case .strong: return Color("Strong")
+        case .severe: return Color("Severe")
         }
     }
 }
