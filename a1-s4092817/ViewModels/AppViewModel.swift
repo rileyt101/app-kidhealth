@@ -28,8 +28,8 @@ final class AppViewModel: ObservableObject {
     
     @Published var severitySliderValue: Double = 0.0 {
         didSet {
-            let clamped = Int(severitySliderValue.rounded())
-            severityField = Severity(rawValue: clamped) ?? .mild
+            let severityIntValue = Int(severitySliderValue.rounded())
+            severityField = Severity(rawValue: severityIntValue) ?? .mild
         }
     }
     
