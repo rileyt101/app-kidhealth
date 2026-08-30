@@ -7,6 +7,13 @@
 
 import Foundation
 
+/**
+Child.swift
+Defines Child data structure, which represents a Child of the user.
+A Child can have any amount of associated Allergies.
+*/
+
+// MARK: - Child struct
 struct Child: Codable, Identifiable {
     var id = UUID()
     var name: String

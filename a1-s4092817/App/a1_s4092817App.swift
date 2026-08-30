@@ -5,6 +5,11 @@
 //  Created by Riley Tran on 23/8/2026.
 //
 
+/**
+a1_s4092817App.swift
+Entry point for App.
+*/
+
 import SwiftUI
 
 @main

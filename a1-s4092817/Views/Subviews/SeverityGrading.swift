@@ -6,7 +6,10 @@
 //
 
 import SwiftUI
-
+/**
+SeverityGrading.swift
+Subview that displays an Allergy's Severity using colour.
+*/
 struct SeverityGrading: View {
     let severity: Severity
     let size: Int
@@ -15,6 +18,7 @@ struct SeverityGrading: View {
     
     var body: some View {
         HStack(spacing: 4) {
+            // Num. of dots filled relative to Severity; enabled by Severity raw value being an Int
             ForEach(0..<totalDots, id: \.self) { index in
                 Circle()
                     .fill(severity.rawValue >= index ? severity.color : .gray)
@@ -26,5 +30,8 @@ struct SeverityGrading: View {
 
 
 #Preview {
+    SeverityGrading(severity: .mild, size: 20)
+    SeverityGrading(severity: .moderate, size: 20)
     SeverityGrading(severity: .strong, size: 20)
+    SeverityGrading(severity: .severe, size: 20)
 }

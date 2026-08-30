@@ -2,22 +2,25 @@
 //  HomeViewModel.swift
 //  a1-s4092817
 //
-//  Handles all of the prototypes' logic (creating and modifying allergy data).
 //  Created by Riley Tran on 28/8/2026.
 //
+
+/**
+AppViewModel.swift
+Handles ALL of the app's logic (creating and modifying allergy data), returning Child data to HomeView
+ 
+The app's scope allows for a single ViewModel to be made (without this file being too convoluted)
+*/
 
 import SwiftUI
 import Combine
 
-
 final class AppViewModel: ObservableObject {
     
-    // MARK: - States
+    // MARK: - Stored user data
     @Published private(set) var children: [Child] = childrenData
     
     // MARK: - Allergy entry fields
-    @Published var currentChild: Child?
-    
     @Published var nameField: String = ""
     @Published var severityField: Severity = .mild
     @Published var medicationField: String = ""
@@ -30,27 +33,21 @@ final class AppViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Derived values
+    // MARK: - Getters and setters
+    // Get Child via name a-z
     var alphabeticallyOrderedChildren: [Child] {
         let sorted = children.sorted { $0.name < $1.name }
         return sorted
     }
     
-    // MARK: - Getters and setters
-    func getChildren() -> [Child] {
-        return children
-    }
-    
-    // Used for Preview testing
-    func getChildByName(name: String) -> Child {
-        return children.first(where: { $0.name == name })!
-    }
-    
+    // Add Allergy to Child
     func addAllergyEntry(child: Child) -> Bool {
+        // Make sure child exists (it should, since Child is only passed here via app on a existing Child struct)
         guard let childIndex = children.firstIndex(where: { $0.id == child.id }) else {
             return false
         }
         
+        // Auto-fill empty fields
         if (nameField.isEmpty) {
             nameField = "Unknown"
         }
@@ -66,7 +63,6 @@ final class AppViewModel: ObservableObject {
                                  medication: medicationField,
                                  notes: notesField)
         children[childIndex].allergies = (children[childIndex].allergies ?? []) + [newAllergy]
-
         return true
     }
     

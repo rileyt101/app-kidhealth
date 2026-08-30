@@ -5,11 +5,18 @@
 //  Created by Riley Tran on 25/8/2026.
 //
 
+/**
+Home.swift
+Home View that displays the user's children.
+*/
+
 import SwiftUI
 
 struct HomeView: View {
+    //MARK: - View Model
     @StateObject var viewModel = AppViewModel()
     
+    // MARK: - View Content
     var body: some View {
         NavigationStack {
             List(viewModel.alphabeticallyOrderedChildren) { child in

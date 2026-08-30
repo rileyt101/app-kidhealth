@@ -5,22 +5,25 @@
 //  Created by Riley Tran on 23/8/2026.
 //
 
+/**
+CustomSplash.swift
+Subview using Layout protocol to display splash logo of app.
+*/
+
 import SwiftUI
-// TODO: - Recomment code
-// MARK: - Custom Layout
 
 struct CustomSplash: Layout {
-    /// Spacing between the divider and the titleFirst block
-    var dividerSpacing: CGFloat = 16
-    /// Spacing between the titleFirst block and the subtitle
-    var verticalSpacing: CGFloat = 16
-    /// Horizontal offset of divider (relative to the subtitle)
-    var dividerHorizontalOffset: CGFloat = 32
-    /// How much the symbolProminent overlaps the top-right corner of the titleFirst
-    var iconOverlap: CGFloat = 10
-    /// Spacing between the First and Last word in title
-    var titleVerticalSpacing: CGFloat = 15
+    // MARK: - Fixed spacing values
+    // Spacing between the divider and the first Title
+    let dividerSpacing: CGFloat = 16
+    // Spacing between the First and Last word in title
+    let titleVerticalSpacing: CGFloat = 15
+    // Additional spacing between the first Title and the prominent Symbol
+    let prominentSymbolHorizontalSpacing: CGFloat = 8
+    // Reverse horizontal offset of superscript Symbol (how close Symbols are to each other)
+    let symbolHorizontalOffset: CGFloat = -5
 
+    // MARK: - Fixed layout parameter order
     // Enum represents expected order of custom layout parameters
     private enum Index {
         static let divider = 0
@@ -29,7 +32,8 @@ struct CustomSplash: Layout {
         static let symbolProminent = 3
         static let symbolSuperscript = 4
     }
-
+    
+    // MARK: - Functions
     func sizeThatFits(
         proposal: ProposedViewSize,
         subviews: Subviews,
@@ -37,17 +41,19 @@ struct CustomSplash: Layout {
     ) -> CGSize {
         guard subviews.count == 5 else { return .zero }
         
+        // Get sizes
         let titleFirstSize = subviews[Index.titleFirst].sizeThatFits(.unspecified)
         let titleLastSize = subviews[Index.titleLast].sizeThatFits(.unspecified)
         let dividerSize = subviews[Index.divider].sizeThatFits(.unspecified)
 
-        // "Logo block" = divider + spacing + titleFirst
+        // Width spans from the divider (left), to the very end of the last Title (right)
         let logoBlockWidth = dividerSize.width +
                             dividerSpacing +
                             titleFirstSize.width / 2 +
                             titleLastSize.width
         
-        let logoBlockHeight = max(titleFirstSize.height, dividerSize.height)
+        // Height spans the divider height (assumes that divider is longer than text elements)
+        let logoBlockHeight = dividerSize.height
 
         let totalWidth = logoBlockWidth
         let totalHeight = logoBlockHeight
@@ -64,8 +70,10 @@ struct CustomSplash: Layout {
         subviews: Subviews,
         cache: inout ()
     ) {
+        // Ensure 5 inputs
         guard subviews.count == 5 else { return }
-
+        
+        // Get sizes
         let divider = subviews[Index.divider]
         let titleFirst = subviews[Index.titleFirst]
         let titleLast = subviews[Index.titleLast]
@@ -73,21 +81,19 @@ struct CustomSplash: Layout {
         let symbolSuperscript = subviews[Index.symbolSuperscript]
 
         let titleFirstSize = titleFirst.sizeThatFits(.unspecified)
-        let titleLastSize =
-            titleLast.sizeThatFits(.unspecified)
+        let titleLastSize = titleLast.sizeThatFits(.unspecified)
         
         let dividerSize = divider.sizeThatFits(ProposedViewSize(width: nil, height: titleFirstSize.height))
         let symbolProminentSize = symbolProminent.sizeThatFits(.unspecified)
-        let symbolSuperscriptSize =
-            symbolSuperscript.sizeThatFits(.unspecified)
+        let symbolSuperscriptSize = symbolSuperscript.sizeThatFits(.unspecified)
 
-        let logoBlockHeight = max(titleFirstSize.height, dividerSize.height)
+        let logoBlockHeight = dividerSize.height
 
         // Get origin co-ords of X and Y
         let originX = bounds.minX
         let originY = bounds.minY
 
-        // Place divider (vertical line)
+        // Place divider (vertical line) on very left of Layout
         let dividerOrigin = CGPoint(
             x: originX,
             y: originY
@@ -112,6 +118,7 @@ struct CustomSplash: Layout {
             proposal: ProposedViewSize(width: titleFirstSize.width, height: titleFirstSize.height)
         )
         
+        // Place last Title underneath first Title, beginning halfway of first Title's width
         let titleLastOrigin = CGPoint(
             x: dividerOrigin.x
                 + dividerSize.width
@@ -126,63 +133,55 @@ struct CustomSplash: Layout {
             proposal: ProposedViewSize(width: titleLastSize.width, height: titleLastSize.height)
         )
 
-        // Place symbolProminent, badged onto the top-right corner of the titleFirst
+        // Place symbolProminent beside first Title
         let symbolProminentOrigin = CGPoint(
             x: titleFirstOrigin.x
-            + 4 * titleLastSize.width / 7,
+            + titleFirstSize.width
+            + prominentSymbolHorizontalSpacing,
             y: titleFirstOrigin.y
         )
-        
         symbolProminent.place(
             at: symbolProminentOrigin,
             proposal: ProposedViewSize(width: symbolProminentSize.width, height: symbolProminentSize.height)
         )
         
+        // Place superscript Symbol on top-right on prominent Symbol
         let symbolSuperscriptOrigin = CGPoint(
             x: symbolProminentOrigin.x
-                + symbolProminentSize.width,
+                + symbolProminentSize.width
+                + symbolHorizontalOffset,
             y: symbolProminentOrigin.y
         )
-        
         symbolSuperscript.place(
             at: symbolSuperscriptOrigin,
             proposal: ProposedViewSize(width: symbolSuperscriptSize.width, height: symbolSuperscriptSize.height)
         )
-
-        // Place subtitle, centered below the top block
     }
 }
 
-// MARK: - Demo usage
-
-struct CustomSplashView: View {
-    var body: some View {
-        CustomSplash {
-            // --- VERTICAL LINE ---
-            Rectangle()
-                .frame(width: 3, height: 150)
-
-            // --- TEXT ---
-            Text("Kid")
-                .font(.system(size: 40))
-                .fontWeight(.semibold)
-                .fixedSize()
-            Text("Health")
-                .font(.system(size: 40))
-                .fontWeight(.semibold)
-                .fixedSize()
-
-            // --- SF SYMBOLS ---
-                Image(systemName: "heart.text.clipboard")
-                    .font(.system(size: 32, weight: .medium))
-                Image(systemName: "cross")
-                    .font(.system(size: 12, weight: .bold))
-        }
-        .border(Color.red, width: 1)
-    }
-}
-
+// MARK: - Preview
 #Preview {
-    CustomSplashView()
+    CustomSplash {
+        // --- VERTICAL LINE ---
+        Rectangle()
+            .frame(width: 3, height: 150)
+
+        // --- TEXT ---
+        Text("Kid")
+            .font(.system(size: 40))
+            .fontWeight(.semibold)
+            .fixedSize()
+        Text("Health")
+            .font(.system(size: 40))
+            .fontWeight(.semibold)
+            .fixedSize()
+
+        // --- SF SYMBOLS ---
+            Image(systemName: "heart.text.clipboard")
+                .font(.system(size: 32, weight: .medium))
+            Image(systemName: "cross")
+                .font(.system(size: 12, weight: .bold))
+    }
+    .border(Color.red, width: 1)
 }
 

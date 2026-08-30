@@ -5,6 +5,13 @@
 //  Created by Riley Tran on 26/8/2026.
 //
 
+/**
+Children.swift
+Contains hard-coded data for the user's Children.
+This data is copied to AppViewModel upon initialisation of the view model (i.e. the app with begin with this data).
+*/
+
+// MARK: - Children data
 let childrenData: [Child] = [
     Child(name: "Ryan"
          ),

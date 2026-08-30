@@ -5,13 +5,19 @@
 //  Created by Riley Tran on 27/8/2026.
 //
 
+/**
+AllergyListItem.swift
+Subview defining display of list item for each Allergy.
+*/
+
 import SwiftUI
 
 struct AllergyListItem: View {
     var allergy: Allergy
-
+    
     var body: some View {
         HStack {
+        //MARK: - Leading
             VStack (alignment: .leading) {
                 Text(allergy.name)
                 HStack {
@@ -23,6 +29,7 @@ struct AllergyListItem: View {
                 }
             }
             Spacer()
+            //MARK: - Trailing
             Text("Details")
                 .foregroundStyle(Color.accentColor)
         }
@@ -33,4 +40,5 @@ struct AllergyListItem: View {
     AllergyListItem(allergy: Allergy(name: "Eggs",
                                      severity: "Severe",
                                      medication: "EpiPen"))
+    .padding(.horizontal, 16)
 }

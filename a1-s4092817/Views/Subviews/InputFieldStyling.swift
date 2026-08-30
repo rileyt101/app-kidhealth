@@ -5,6 +5,12 @@
 //  Created by Riley Tran on 29/8/2026.
 //
 
+/**
+InputFieldStyling.swift
+Reusable Wrapper that allows a View to be styling consistently.
+Used for input fields in AllergyCreateView
+*/
+
 import SwiftUI
 
 struct InputFieldStyling<Content: View>: View {
@@ -14,6 +20,7 @@ struct InputFieldStyling<Content: View>: View {
         self.content = content()
     }
 
+    // MARK: - Styling
     var body: some View {
         content
             .textFieldStyle(.plain)
