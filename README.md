@@ -1,6 +1,6 @@
-# KidHealth (a1-s4092817 / Riley Tran)
+# KidHealth (Riley Tran)
  
-A prototype for logging children's allergies.
+A prototype for logging children's allergies. Developed as part of iPSE course in RMIT.
  
 ## Overview
  
